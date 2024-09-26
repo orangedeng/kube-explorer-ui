@@ -11,7 +11,7 @@ const CUSTOM_VENDOR = {
   suse: 'Rancher Prime',
   csp:  'SUSE Rancher'
 };
-
+const DEFAULT_VENDOR = 'Dashboard'; // add for kube-explorer
 let mode = STANDARD;
 let vendor = STANDARD_VENDOR;
 let product = STANDARD_PRODUCT;
@@ -66,6 +66,11 @@ export function getVendor() {
     return STANDARD_VENDOR;
   }
 
+  // add for kube-explorer
+  if (vendor === STANDARD_VENDOR) {
+    return DEFAULT_VENDOR;
+  }
+
   return vendor;
 }
 
@@ -89,5 +94,15 @@ export function setTitle() {
     const head = document.getElementsByTagName('head')[0];
 
     head.appendChild(link);
+  } else {
+    const m = window.location.pathname.match(/\/proxy\/explorer\/([^/]+)\//);
+
+    if (m?.length === 2) {
+      const t = m[1]?.split('.')[0];
+
+      if (t) {
+        document.title = t;
+      }
+    }
   }
 }

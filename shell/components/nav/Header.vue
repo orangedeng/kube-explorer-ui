@@ -20,6 +20,8 @@ import { ActionLocation, ExtensionPoint } from '@shell/core/types';
 import { getApplicableExtensionEnhancements } from '@shell/core/plugin-helpers';
 import IconOrSvg from '@shell/components/IconOrSvg';
 import { wait } from '@shell/utils/async';
+import Identicon from 'identicon.js';
+import { md5 } from '@shell/utils/crypto';
 
 export default {
 
@@ -179,6 +181,12 @@ export default {
       };
     },
 
+    defaultAvatar() {
+      const hash = md5('Unknown', 'hex');
+      const out = `data:image/png;base64,${ new Identicon(hash, 80, 0.01).toString() }`;
+
+      return out;
+    }
   },
 
   watch: {
@@ -504,7 +512,7 @@ export default {
             <i class="icon icon-terminal icon-lg" />
           </button>
 
-          <button
+          <!-- <button
             v-if="showKubeConfig"
             v-clean-tooltip="t('nav.kubeconfig.download')"
             :disabled="!kubeConfigEnabled"
@@ -514,9 +522,9 @@ export default {
             @click="currentCluster.downloadKubeConfig()"
           >
             <i class="icon icon-file icon-lg" />
-          </button>
+          </button> -->
 
-          <button
+          <!-- <button
             v-if="showCopyConfig"
             v-clean-tooltip="t('nav.kubeconfig.copy')"
             :disabled="!kubeConfigEnabled"
@@ -533,7 +541,7 @@ export default {
               v-else
               class="icon icon-copy icon-lg"
             />
-          </button>
+          </button> -->
         </template>
 
         <button
@@ -664,10 +672,16 @@ export default {
               width="36"
               height="36"
             >
-            <i
+            <!-- <i
               v-else
               class="icon icon-user icon-3x avatar"
-            />
+            /> -->
+            <img
+              v-else
+              :src="defaultAvatar"
+              width="36"
+              height="36"
+            >
           </div>
           <template
             slot="popover"
@@ -705,7 +719,7 @@ export default {
                   <a :href="href">{{ t('nav.userMenu.preferences') }}</a>
                 </li>
               </router-link>
-              <router-link
+              <!-- <router-link
                 v-if="showAccountAndApiKeyLink"
                 v-slot="{ href, navigate }"
                 custom
@@ -718,7 +732,7 @@ export default {
                 >
                   <a :href="href">{{ t('nav.userMenu.accountAndKeys', {}, true) }}</a>
                 </li>
-              </router-link>
+              </router-link> -->
               <router-link
                 v-if="authEnabled"
                 v-slot="{ href, navigate }"

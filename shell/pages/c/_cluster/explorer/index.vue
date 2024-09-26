@@ -113,9 +113,9 @@ export default {
       // https://github.com/rancher/dashboard/issues/9792
       setPromiseResult(canViewGrafanaLink(this.$store), this, 'canViewMetrics', 'Determine Grafana Permission');
 
-      if (this.currentCluster.isLocal && this.$store.getters['management/schemaFor'](MANAGEMENT.NODE)) {
-        this.$store.dispatch('management/findAll', { type: MANAGEMENT.NODE });
-      }
+      // if (this.currentCluster.isLocal && this.$store.getters['management/schemaFor'](MANAGEMENT.NODE)) {
+      //   this.$store.dispatch('management/findAll', { type: MANAGEMENT.NODE });
+      // }
 
       this.canViewAgents = this.$store.getters['cluster/canList'](WORKLOAD_TYPES.DEPLOYMENT) && this.$store.getters['cluster/canList'](WORKLOAD_TYPES.STATEFUL_SET);
 
@@ -619,14 +619,14 @@ export default {
         /></span>
       </div>
       <div :style="{'flex':1}" />
-      <div v-if="showClusterTools">
+      <!-- <div v-if="showClusterTools">
         <router-link
           :to="{name: 'c-cluster-explorer-tools'}"
           class="cluster-tools-link"
         >
           <span>{{ t('nav.clusterTools') }}</span>
         </router-link>
-      </div>
+      </div> -->
       <ConfigBadge
         v-if="currentCluster.canUpdate"
         :cluster="currentCluster"
